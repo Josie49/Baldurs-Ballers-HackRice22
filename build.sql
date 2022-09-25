@@ -135,3 +135,53 @@ CREATE TABLE [dbo].[SKILLS](
            )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
+
+INSERT INTO [dbo].[SKILLS]
+([skillID]
+,[skillName])
+VALUES
+    (0 ,'Carpentry')
+
+INSERT INTO [dbo].[SKILLS]
+([skillID]
+,[skillName])
+VALUES
+    (1 ,'Back-end support')
+
+INSERT INTO [dbo].[SKILLS]
+([skillID]
+,[skillName])
+VALUES
+    (2 ,'UI design')
+
+INSERT INTO [dbo].[SKILLS]
+([skillID]
+,[skillName])
+VALUES
+    (3 ,'Hardware support')
+
+INSERT INTO [dbo].[SKILLS]
+([skillID]
+,[skillName])
+VALUES
+    (4 ,'Emotional support')
+
+INSERT INTO [dbo].[SKILLS]
+([skillID]
+,[skillName])
+VALUES
+    (5 ,'Wiring')
+
+INSERT INTO [dbo].[SKILLS]
+([skillID]
+,[skillName])
+VALUES
+    (6 ,'Consultation')
+
+INSERT INTO [dbo].[SKILLS]
+([skillID]
+,[skillName])
+VALUES
+    (7 ,'Notary')
+
+GO
