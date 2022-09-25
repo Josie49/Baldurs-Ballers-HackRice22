@@ -6,7 +6,7 @@ public class Job {
     private static long counter = 0;
 
     private long jobID;
-    private int length;
+    private short length;
     private Employee assignedEmployee;
     private String details;
     private Location location;
@@ -20,7 +20,7 @@ public class Job {
      * @param location the location of the job
      * @param skills the skills needed for the job
      */
-    public Job(int length, String details, Location location, HashSet<Skills> skills) {
+    public Job(short length, String details, Location location, HashSet<Skills> skills) {
         this.jobID = counter;
         counter++;
 
@@ -39,7 +39,7 @@ public class Job {
      * @param location the location of the job
      * @param skills the skills needed for the job
      */
-    public Job(long jobID, int length, String details, Location location, HashSet<Skills> skills) {
+    public Job(long jobID, short length, String details, Location location, HashSet<Skills> skills) {
         this.jobID = jobID;
 
         this.length = length;
@@ -53,7 +53,7 @@ public class Job {
         return jobID;
     }
 
-    public int getLength() {
+    public short getLength() {
         return length;
     }
 
