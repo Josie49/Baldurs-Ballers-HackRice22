@@ -302,4 +302,21 @@ public class DatabaseConnection {
 
         return skills;
     }
+
+    /**
+     * Assigns a job to an employee at the given time.
+     *
+     * @param employee an Employee
+     * @param job a Job
+     * @param time the start time
+     */
+    public void assignJob(Employee employee, Job job, int time) {
+        try {
+            this.statement.executeQuery(
+                "INSERT INTO ASSIGNMENTS VALUES (" + employee.getEmployeeID() + ", " + job.getJobID() + ", " +
+                    time + ")");
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+    }
 }
