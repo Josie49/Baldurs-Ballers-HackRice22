@@ -1,6 +1,7 @@
 package database;
 
 import database.item.*;
+import management.Schedule;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -318,5 +319,31 @@ public class DatabaseConnection {
         } catch (SQLException se) {
             se.printStackTrace();
         }
+    }
+
+    /**
+     * Gets an employee's schedule.
+     *
+     * @param employeeID the employee's ID
+     * @return a Schedule
+     */
+    public Schedule getEmployeeSchedule(long employeeID) {
+        Schedule schedule = new Schedule();
+        try {
+            ResultSet results = this.connection.createStatement().executeQuery(
+                "SELECT * FROM ASSIGNMENTS WHERE employeeID = " + employeeID);
+            long[] timeTable = schedule.getTable();
+            while (results.next()) {
+                long jobID = results.getLong(2);
+                short time = results.getShort(3);
+                Job job = this.getJob(jobID);
+                for (int i = 0; i < job.getLength(); i++) {
+                    timeTable[time + i] = jobID;
+                }
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+        return schedule;
     }
 }
