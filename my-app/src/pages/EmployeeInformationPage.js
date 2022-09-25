@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { InputNumber, Checkbox, Button, Input } from 'antd';
+import { InputNumber, Checkbox, Button } from 'antd';
 import axios from 'axios';
+import './EmployeeInformationPage.css';
 
 const options = [
     { label: 'Carpentry', value: 'CARPENTRY' },
@@ -17,17 +18,19 @@ export default function EmployeeInformationPage() {
     const [phoneNumber, setPhoneNumber] = useState(0);
     const [hours, setHours] = useState(0);
     const [skills, setSkills] = useState();
-    const [location, setLocation] = useState("");
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
 
     const sendData = () => {
         console.log("Hours: ", hours);
         console.log("Skills: ", skills);
         console.log("Phone Number: ", phoneNumber);
-        console.log("Location: ", location);
+        console.log("Latitude: ", latitude);
+        console.log("Longitude: ", longitude);
     }
 
     return (
-        <div>
+        <div className="EmployeeInfoPage">
 
             <div>
                 Hours Available
@@ -43,7 +46,14 @@ export default function EmployeeInformationPage() {
             </div>
             <div>
                 <h2>Worker Location</h2>
-                <Input onChange={(e) => setLocation(e.target.value)} placeholder="Enter Job Address"/>
+                <div>
+                    Latitude
+                    <InputNumber controls={false} onChange={(e) => setLatitude(e)} />
+                </div>
+                <div>
+                    Longitude
+                    <InputNumber controls={false} onChange={(e) => setLongitude(e)} />
+                </div>
             </div>
 
             <Button type={"primary"} onClick={sendData}> Submit </Button>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Checkbox, Input, InputNumber } from 'antd';
 import axios from 'axios';
+import './WorkOrderPage.css';
 
 const { TextArea } = Input;
 const options = [
@@ -18,17 +19,19 @@ export default function WorkOrderPage() {
     const [details, setDetails] = useState("");
     const [hours, setHours] = useState(0);
     const [skills, setSkills] = useState();
-    const [location, setLocation] = useState("");
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
 
     const sendData = () => {
         console.log("Hours: ", hours);
         console.log("Skills: ", skills);
         console.log("Details: ", details);
-        console.log("Location: ", location);
+        console.log("Latitude: ", latitude);
+        console.log("Longitude: ", longitude);
     }
 
     return (
-        <div>
+        <div className="WorkOrderPage">
             <div>
                 <h2> Job Details </h2>
                 <TextArea rows={6} placeholder="Job Details" onChange={(e) => setDetails(e.target.value)} />
@@ -44,8 +47,14 @@ export default function WorkOrderPage() {
             </div>
 
             <div>
-                <h2>Job Location</h2>
-                <Input onChange={(e) => setLocation(e.target.value)} placeholder="Enter Job Address"/>
+                <div>
+                    Latitude
+                    <InputNumber controls={false} onChange={(e) => setLatitude(e)} />
+                </div>
+                <div>
+                    Longitude
+                    <InputNumber controls={false} onChange={(e) => setLongitude(e)} />
+                </div>
             </div>
 
             <Button type={"primary"} onClick={sendData}> Submit </Button>

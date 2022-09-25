@@ -59,18 +59,15 @@ public class DatabaseConnection {
         Location location = employee.getStartingLocation();
         try {
             PreparedStatement preparedEmployeeStatement = this.connection.prepareStatement(
-                "INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                "INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?)"
             );
 
             preparedEmployeeStatement.setLong(1, employee.getEmployeeID());
             preparedEmployeeStatement.setString(2, employee.getPhoneNumber());
-            preparedEmployeeStatement.setString(3, location.getAddress1());
-            preparedEmployeeStatement.setString(4, location.getAddress2());
-            preparedEmployeeStatement.setString(5, location.getCity());
-            preparedEmployeeStatement.setString(6, location.getState());
-            preparedEmployeeStatement.setString(7, location.getZip());
-            preparedEmployeeStatement.setShort(8, employee.getShiftStart());
-            preparedEmployeeStatement.setShort(9, employee.getShiftEnd());
+            preparedEmployeeStatement.setDouble(3, location.getLatitude());
+            preparedEmployeeStatement.setDouble(4, location.getLongitude());
+            preparedEmployeeStatement.setShort(5, employee.getShiftStart());
+            preparedEmployeeStatement.setShort(6, employee.getShiftEnd());
 
             preparedEmployeeStatement.execute();
 
@@ -105,11 +102,10 @@ public class DatabaseConnection {
             ResultSet results = statement.executeQuery("SELECT * FROM EMPLOYEE WHERE employeeID = " + employeeID);
             if (results.next()) {
                 Location location =
-                    new Location(results.getString(3), results.getString(4),
-                        results.getString(5), results.getString(6), results.getString(7));
+                    new Location(results.getDouble(3), results.getDouble(4));
 
                 return new Employee(
-                    employeeID, results.getShort(8), results.getShort(9),
+                    employeeID, results.getShort(5), results.getShort(6),
                     results.getString(2), location, this.getEmployeeSkills(employeeID));
             } else {
                 return null;
@@ -131,12 +127,11 @@ public class DatabaseConnection {
             ResultSet results = statement.executeQuery("SELECT * FROM EMPLOYEE");
             while (results.next()) {
                 Location location =
-                    new Location(results.getString(3), results.getString(4),
-                        results.getString(5), results.getString(6), results.getString(7));
+                    new Location(results.getDouble(3), results.getDouble(4));
 
                 employees.add(
                     new Employee(
-                        results.getLong(1), results.getShort(8), results.getShort(9),
+                        results.getLong(1), results.getShort(5), results.getShort(6),
                         results.getString(2), location,
                         this.getEmployeeSkills(results.getLong(1))
                     )
@@ -179,18 +174,15 @@ public class DatabaseConnection {
 
         try {
             PreparedStatement preparedJobStatement = this.connection.prepareStatement(
-                "INSERT INTO JOB VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                "INSERT INTO JOB VALUES (?, ?, ?, ?, ?, ?)"
             );
 
             preparedJobStatement.setLong(1, job.getJobID());
-            preparedJobStatement.setString(2, location.getAddress1());
-            preparedJobStatement.setString(3, location.getAddress2());
-            preparedJobStatement.setString(4, location.getCity());
-            preparedJobStatement.setString(5, location.getState());
-            preparedJobStatement.setString(6, location.getZip());
-            preparedJobStatement.setShort(7, job.getLength());
-            preparedJobStatement.setString(8, job.getDetails());
-            preparedJobStatement.setBoolean(9, false);
+            preparedJobStatement.setDouble(2, location.getLatitude());
+            preparedJobStatement.setDouble(3, location.getLongitude());
+            preparedJobStatement.setShort(4, job.getLength());
+            preparedJobStatement.setString(5, job.getDetails());
+            preparedJobStatement.setBoolean(6, false);
 
             preparedJobStatement.execute();
 
@@ -225,11 +217,10 @@ public class DatabaseConnection {
             ResultSet results = statement.executeQuery("SELECT * FROM JOB WHERE jobID = " + jobID);
             if (results.next()) {
                 Location location =
-                    new Location(results.getString(2), results.getString(3),
-                        results.getString(4), results.getString(5), results.getString(6));
+                    new Location(results.getDouble(2), results.getDouble(3));
 
                 return new Job(
-                    jobID, results.getShort(7), results.getString(8), location,
+                    jobID, results.getShort(4), results.getString(5), location,
                     this.getJobSkills(jobID));
             } else {
                 return null;
@@ -252,12 +243,11 @@ public class DatabaseConnection {
             ResultSet results = statement.executeQuery("SELECT * FROM JOB");
             while (results.next()) {
                 Location location =
-                    new Location(results.getString(2), results.getString(3),
-                        results.getString(4), results.getString(5), results.getString(6));
+                    new Location(results.getDouble(2), results.getDouble(3));
 
                 jobs.add(
                     new Job(
-                        results.getLong(1), results.getShort(7), results.getString(8),
+                        results.getLong(1), results.getShort(4), results.getString(5),
                         location, this.getJobSkills(results.getLong(1))));
             }
         } catch (SQLException se) {
@@ -279,12 +269,11 @@ public class DatabaseConnection {
             ResultSet results = statement.executeQuery("SELECT * FROM JOB WHERE completion = 0");
             while (results.next()) {
                 Location location =
-                    new Location(results.getString(2), results.getString(3),
-                        results.getString(4), results.getString(5), results.getString(6));
+                    new Location(results.getDouble(2), results.getDouble(3));
 
                 jobs.add(
                     new Job(
-                        results.getLong(1), results.getShort(7), results.getString(8),
+                        results.getLong(1), results.getShort(4), results.getString(5),
                         location, this.getJobSkills(results.getLong(1))));
             }
         } catch (SQLException se) {
@@ -312,5 +301,22 @@ public class DatabaseConnection {
         }
 
         return skills;
+    }
+
+    /**
+     * Assigns a job to an employee at the given time.
+     *
+     * @param employee an Employee
+     * @param job a Job
+     * @param time the start time
+     */
+    public void assignJob(Employee employee, Job job, int time) {
+        try {
+            this.statement.executeQuery(
+                "INSERT INTO ASSIGNMENTS VALUES (" + employee.getEmployeeID() + ", " + job.getJobID() + ", " +
+                    time + ")");
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
     }
 }
