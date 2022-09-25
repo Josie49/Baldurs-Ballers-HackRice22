@@ -7,6 +7,7 @@ import database.item.Job;
 import database.item.Location;
 import database.item.Skills;
 import management.Schedule;
+import management.Scheduler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,6 +17,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class API {
@@ -24,6 +26,10 @@ public class API {
         // Connect to the database.
 
         DatabaseConnection databaseConnection = new DatabaseConnection();
+        Scheduler scheduler = new Scheduler(databaseConnection);
+        scheduler.scheduleAll(
+            new ArrayList<>(databaseConnection.getEmployees()),
+            new ArrayList<>(databaseConnection.getUnfinishedJobs()));
 
         // Create the server
 
@@ -62,6 +68,7 @@ public class API {
                 JSONObject jsonObject = getSchedule(databaseConnection, userID);
 
                 exchange.getResponseHeaders().set("Content-Type", "application/json");
+                exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
 
                 String responseText = jsonObject.toString();
 

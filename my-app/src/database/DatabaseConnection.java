@@ -14,7 +14,6 @@ import java.util.List;
 public class DatabaseConnection {
 
     private Connection connection = null;
-    private Statement statement = null;
 
     /**
      * Starts up the database connection.
@@ -42,7 +41,6 @@ public class DatabaseConnection {
 
         try {
             this.connection = DriverManager.getConnection(connectionUrl);
-            this.statement = connection.createStatement();
             System.out.println("Connected to database");
         }
         // Handle any errors that may have occurred.
@@ -100,7 +98,7 @@ public class DatabaseConnection {
 
             // Query the database.
 
-            ResultSet results = statement.executeQuery("SELECT * FROM EMPLOYEE WHERE employeeID = " + employeeID);
+            ResultSet results = connection.createStatement().executeQuery("SELECT * FROM EMPLOYEE WHERE employeeID = " + employeeID);
             if (results.next()) {
                 Location location =
                     new Location(results.getDouble(3), results.getDouble(4));
@@ -125,7 +123,7 @@ public class DatabaseConnection {
     public List<Employee> getEmployees() {
         List<Employee> employees = new ArrayList<>();
         try {
-            ResultSet results = statement.executeQuery("SELECT * FROM EMPLOYEE");
+            ResultSet results = connection.createStatement().executeQuery("SELECT * FROM EMPLOYEE");
             while (results.next()) {
                 Location location =
                     new Location(results.getDouble(3), results.getDouble(4));
@@ -154,7 +152,7 @@ public class DatabaseConnection {
     public HashSet<Skills> getEmployeeSkills(long employeeID) {
         HashSet<Skills> skills = new HashSet<>();
         try {
-            ResultSet results = statement.executeQuery("SELECT * FROM EMPLOYEE_SKILLS WHERE employeeID = " + employeeID);
+            ResultSet results = connection.createStatement().executeQuery("SELECT * FROM EMPLOYEE_SKILLS WHERE employeeID = " + employeeID);
             while (results.next()) {
                 skills.add(Skills.getSkill(results.getInt(2)));
             }
@@ -215,7 +213,7 @@ public class DatabaseConnection {
 
             // Query the database.
 
-            ResultSet results = statement.executeQuery("SELECT * FROM JOB WHERE jobID = " + jobID);
+            ResultSet results = connection.createStatement().executeQuery("SELECT * FROM JOB WHERE jobID = " + jobID);
             if (results.next()) {
                 Location location =
                     new Location(results.getDouble(2), results.getDouble(3));
@@ -241,7 +239,7 @@ public class DatabaseConnection {
         List<Job> jobs = new ArrayList<>();
 
         try {
-            ResultSet results = statement.executeQuery("SELECT * FROM JOB");
+            ResultSet results = connection.createStatement().executeQuery("SELECT * FROM JOB");
             while (results.next()) {
                 Location location =
                     new Location(results.getDouble(2), results.getDouble(3));
@@ -267,7 +265,7 @@ public class DatabaseConnection {
         List<Job> jobs = new ArrayList<>();
 
         try {
-            ResultSet results = statement.executeQuery("SELECT * FROM JOB WHERE completion = 0");
+            ResultSet results = connection.createStatement().executeQuery("SELECT * FROM JOB WHERE completion = 0");
             while (results.next()) {
                 Location location =
                     new Location(results.getDouble(2), results.getDouble(3));
@@ -293,7 +291,7 @@ public class DatabaseConnection {
     public HashSet<Skills> getJobSkills(long jobID) {
         HashSet<Skills> skills = new HashSet<>();
         try {
-            ResultSet results = statement.executeQuery("SELECT * FROM JOB_SKILLS WHERE jobID = " + jobID);
+            ResultSet results = connection.createStatement().executeQuery("SELECT * FROM JOB_SKILLS WHERE jobID = " + jobID);
             while (results.next()) {
                 skills.add(Skills.getSkill(results.getShort(2)));
             }
@@ -313,9 +311,10 @@ public class DatabaseConnection {
      */
     public void assignJob(Employee employee, Job job, int time) {
         try {
-            this.statement.executeQuery(
+            connection.createStatement().executeQuery(
                 "INSERT INTO ASSIGNMENTS VALUES (" + employee.getEmployeeID() + ", " + job.getJobID() + ", " +
                     time + ")");
+            connection.createStatement().executeQuery("UPDATE JOB SET completed = 1 WHERE jobID = " + job.getJobID());
         } catch (SQLException se) {
             se.printStackTrace();
         }
@@ -345,5 +344,16 @@ public class DatabaseConnection {
             se.printStackTrace();
         }
         return schedule;
+    }
+
+    /**
+     * Removes all scheduled jobs.
+     */
+    public void removeScheduledJobs() {
+        try {
+            connection.createStatement().execute("DELETE FROM ASSIGNMENTS");
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
     }
 }

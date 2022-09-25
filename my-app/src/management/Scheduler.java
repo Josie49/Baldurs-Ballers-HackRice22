@@ -40,6 +40,8 @@ public class Scheduler {
      * @return A simple pair reflecting the modified empList and jobList in case external user requires it
      */
     public AbstractMap.SimpleEntry<ArrayList<Employee>, ArrayList<Job>> scheduleAll(ArrayList<Employee> empList, ArrayList<Job> jobList){
+        this.toBase.removeScheduledJobs();
+
         // Number of employees
         int numEmps = empList.size();
         for (Job emptyJob : jobList){
