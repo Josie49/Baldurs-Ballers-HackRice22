@@ -23,6 +23,11 @@ public class Location {
         return latitude;
     }
 
+    /**
+     * @param other Another location to get distance from
+     * @return The distance in kilometers along the surface of a 
+     * theoretically spherical earth between the given points
+     */
     public double radialDist(Location other){
         int earthRad = 6371;
         double interim = .5 - Math.cos((other.getLatitude() - this.getLatitude()) * Math.PI/180) + 

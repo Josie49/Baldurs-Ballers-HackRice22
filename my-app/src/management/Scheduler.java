@@ -34,6 +34,11 @@ public class Scheduler {
 
 
 
+    /**
+     * @param empList List of employees on shift at the moment
+     * @param jobList List of jobs to be assigned
+     * @return A simple pair reflecting the modified empList and jobList in case external user requires it
+     */
     public AbstractMap.SimpleEntry<ArrayList<Employee>, ArrayList<Job>> scheduleAll(ArrayList<Employee> empList, ArrayList<Job> jobList){
         // Number of employees
         int numEmps = empList.size();
@@ -107,6 +112,10 @@ public class Scheduler {
     }
 
 
+    /**
+     * @param schedule An employee's schedule represented as a series of jobIDs
+     * @return An arraylist representing all free periods in the employee's schedule
+     */
     private ArrayList<Point> scheduleParse(Schedule schedule){
         long[] curTab = schedule.getTable();
         // Represents sequence of free slots
@@ -132,6 +141,10 @@ public class Scheduler {
         return blocks;
     }
 
+
+    /**
+     * @return The DatabaseConnection used by this scheduler to transmit information
+     */
     public DatabaseConnection getDataBaseConnection(){
         return this.toBase;
     }
