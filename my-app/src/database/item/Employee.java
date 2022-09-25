@@ -14,7 +14,7 @@ public class Employee {
     private HashSet<Skills> skills;
 
     /**
-     * A constructor for an employee.
+     * A constructor for a new employee.
      *
      * @param shiftStart the hour that their shift starts (starting at 0)
      * @param shiftEnd the hour that their shift ends
@@ -25,6 +25,28 @@ public class Employee {
     public Employee(int shiftStart, int shiftEnd, String phoneNumber, Location startingLocation, HashSet<Skills> skills) {
         this.employeeID = counter;
         counter++;
+
+        this.shiftStart = shiftStart;
+        this.shiftEnd = shiftEnd;
+        this.phoneNumber = phoneNumber;
+        this.startingLocation = startingLocation;
+        this.skills = skills;
+
+        this.schedule = new Schedule();
+    }
+
+    /**
+     * A constructor for an employee with an ID.
+     *
+     * @param employeeID the employee's ID
+     * @param shiftStart the hour that their shift starts (starting at 0)
+     * @param shiftEnd the hour that their shift ends
+     * @param phoneNumber their phone number
+     * @param startingLocation their base location
+     * @param skills their skills
+     */
+    public Employee(long employeeID, int shiftStart, int shiftEnd, String phoneNumber, Location startingLocation, HashSet<Skills> skills) {
+        this.employeeID = employeeID;
 
         this.shiftStart = shiftStart;
         this.shiftEnd = shiftEnd;

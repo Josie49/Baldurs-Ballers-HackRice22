@@ -41,5 +41,11 @@ public enum Skills {
         public String toString() {
             return "Notary";
         }
+    };
+
+    private static Skills[] list = Skills.values();
+
+    public static Skills getSkill(int i) {
+        return list[i];
     }
 }

@@ -5,7 +5,7 @@ public class Location {
     private String address2;
     private String city;
     private String state;
-    private int zip;
+    private String zip;
 
     /**
      * A constructor for a Location.
@@ -16,7 +16,7 @@ public class Location {
      * @param state the state
      * @param zip the zip code
      */
-    public Location(String address1, String address2, String city, String state, int zip) {
+    public Location(String address1, String address2, String city, String state, String zip) {
         this.address1 = address1;
         this.address2 = address2;
         this.city = city;
@@ -40,7 +40,7 @@ public class Location {
         return state;
     }
 
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 }
