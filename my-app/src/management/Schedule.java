@@ -10,4 +10,8 @@ public class Schedule {
             timeTable[i] = false;
         }
     }
+
+    public boolean[] getTable(){
+        return timeTable;
+    }
 }
