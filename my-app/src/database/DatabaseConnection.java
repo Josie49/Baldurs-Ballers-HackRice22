@@ -81,7 +81,10 @@ public class DatabaseConnection {
             for (Skills skill : employee.getSkills()) {
                 preparedSkillsStatement.setLong(1, employee.getEmployeeID());
                 preparedSkillsStatement.setShort(2, (short) skill.ordinal());
+                preparedSkillsStatement.execute();
             }
+
+            System.out.println("Added Employee " + employee.getEmployeeID());
 
         } catch (SQLException se) {
             se.printStackTrace();
@@ -198,7 +201,10 @@ public class DatabaseConnection {
             for (Skills skill : job.getSkills()) {
                 preparedSkillsStatement.setLong(1, job.getJobID());
                 preparedSkillsStatement.setShort(2, (short) skill.ordinal());
+                preparedSkillsStatement.execute();
             }
+
+            System.out.println("Added Job " + job.getJobID());
 
         } catch (SQLException se) {
             se.printStackTrace();
