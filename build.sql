@@ -63,7 +63,7 @@ GO
 
 CREATE TABLE [dbo].[EMPLOYEE_SKILLS](
     [employeeID] [bigint] NOT NULL,
-    [skillID] [int] NOT NULL
+    [skillID] [smallint] NOT NULL
 ) ON [PRIMARY]
 GO
 
@@ -110,7 +110,7 @@ GO
 
 CREATE TABLE [dbo].[JOB_SKILLS](
    [jobID] [bigint] NOT NULL,
-   [skillID] [int] NOT NULL
+   [skillID] [smallint] NOT NULL
 ) ON [PRIMARY]
 GO
 
@@ -127,7 +127,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[SKILLS](
-    [skillID] [int] NOT NULL,
+    [skillID] [smallint] NOT NULL,
     [skillName] [varchar](max) NOT NULL,
     CONSTRAINT [PK_SKILLS] PRIMARY KEY CLUSTERED
        (

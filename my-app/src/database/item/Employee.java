@@ -6,8 +6,8 @@ public class Employee {
     private static long counter = 0;
 
     private long employeeID;
-    private int shiftStart;
-    private int shiftEnd;
+    private short shiftStart;
+    private short shiftEnd;
     private String phoneNumber;
     private Location startingLocation;
     private Schedule schedule;
@@ -22,7 +22,7 @@ public class Employee {
      * @param startingLocation their base location
      * @param skills their skills
      */
-    public Employee(int shiftStart, int shiftEnd, String phoneNumber, Location startingLocation, HashSet<Skills> skills) {
+    public Employee(short shiftStart, short shiftEnd, String phoneNumber, Location startingLocation, HashSet<Skills> skills) {
         this.employeeID = counter;
         counter++;
 
@@ -45,7 +45,7 @@ public class Employee {
      * @param startingLocation their base location
      * @param skills their skills
      */
-    public Employee(long employeeID, int shiftStart, int shiftEnd, String phoneNumber, Location startingLocation, HashSet<Skills> skills) {
+    public Employee(long employeeID, short shiftStart, short shiftEnd, String phoneNumber, Location startingLocation, HashSet<Skills> skills) {
         this.employeeID = employeeID;
 
         this.shiftStart = shiftStart;
@@ -61,11 +61,11 @@ public class Employee {
         return employeeID;
     }
 
-    public int getShiftStart() {
+    public short getShiftStart() {
         return shiftStart;
     }
 
-    public int getShiftEnd() {
+    public short getShiftEnd() {
         return shiftEnd;
     }
 
@@ -83,5 +83,9 @@ public class Employee {
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
+    }
+
+    public HashSet<Skills> getSkills() {
+        return skills;
     }
 }
