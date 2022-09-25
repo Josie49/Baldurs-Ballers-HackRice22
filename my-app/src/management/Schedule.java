@@ -1,4 +1,4 @@
-package database.item;
+package management;
 
 public class Schedule {
 }

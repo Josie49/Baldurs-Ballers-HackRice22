@@ -1,5 +1,7 @@
 package database.item;
 
+import management.Schedule;
+
 import java.util.HashSet;
 
 public class Employee {
