@@ -33,20 +33,17 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[EMPLOYEE](
-     [employeeID] [bigint] NOT NULL,
-     [phoneNumber] [varchar](50) NOT NULL,
-     [startingAddress1] [varchar](max) NOT NULL,
-     [startingAddress2] [varchar](max) NULL,
-     [startingCity] [varchar](max) NOT NULL,
-     [startingState] [nchar](2) NOT NULL,
-     [startingZip] [varchar](50) NOT NULL,
-     [shiftStart] [smallint] NOT NULL,
-     [shiftEnd] [smallint] NOT NULL,
-     CONSTRAINT [PK_EMPLOYEE] PRIMARY KEY CLUSTERED
-         (
-          [employeeID] ASC
-             )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+    [employeeID] [bigint] NOT NULL,
+    [phoneNumber] [varchar](50) NOT NULL,
+    [startingLatitude] [decimal](6,4) NOT NULL,
+    [startingLongitude] [decimal](6,4) NOT NULL,
+    [shiftStart] [smallint] NOT NULL,
+    [shiftEnd] [smallint] NOT NULL,
+    CONSTRAINT [PK_EMPLOYEE] PRIMARY KEY CLUSTERED
+    (
+        [employeeID] ASC
+    )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 GO
 
 /****** Object:  Table [dbo].[EMPLOYEE_SKILLS]    Script Date: 9/24/2022 8:39:24 PM ******/
@@ -81,11 +78,8 @@ GO
 
 CREATE TABLE [dbo].[JOB](
     [jobID] [bigint] NOT NULL,
-    [locationAddress1] [varchar](max) NOT NULL,
-    [locationAddress2] [varchar](max) NULL,
-    [locationCity] [varchar](max) NOT NULL,
-    [locationState] [nchar](2) NOT NULL,
-    [locationZip] [nchar](5) NOT NULL,
+    [locationLatitude] [decimal](6,4) NOT NULL,
+    [locationLongitude] [decimal](6,4) NULL,
     [hours] [smallint] NOT NULL,
     [details] [varchar](max) NULL,
     [completion] [bit] NOT NULL,
