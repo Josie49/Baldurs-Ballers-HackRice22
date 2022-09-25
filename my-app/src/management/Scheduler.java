@@ -7,9 +7,13 @@ import java.util.Map;
 import java.util.AbstractMap.SimpleEntry;
 import java.awt.Point;
 
+import database.DatabaseConnection;
 import database.item.*;
 
 public class Scheduler {
+
+
+    private DatabaseConnection toBase;
 
     // Work order
     // Skills: Array of Strings
@@ -24,13 +28,13 @@ public class Scheduler {
     // Starting Location: String
 
 
-    public Scheduler() {
-
+    public Scheduler(DatabaseConnection toBase) {
+        this.toBase = toBase;
     }
 
 
 
-    private AbstractMap.SimpleEntry<ArrayList<Employee>, ArrayList<Job>> scheduleAll(ArrayList<Employee> empList, ArrayList<Job> jobList){
+    public AbstractMap.SimpleEntry<ArrayList<Employee>, ArrayList<Job>> scheduleAll(ArrayList<Employee> empList, ArrayList<Job> jobList){
         // Number of employees
         int numEmps = empList.size();
         for (Job emptyJob : jobList){
@@ -83,6 +87,8 @@ public class Scheduler {
                                     curEmp.setSchedule(new Schedule(curTable));
                                     // Assign employee to job
                                     emptyJob.setAssignedEmployee(curEmp);
+                                    toBase.assignJob(curEmp, emptyJob, block.x);
+
                                     // Allow loop to move to next job
                                     jobScoped = true;
                                     break;
@@ -124,6 +130,10 @@ public class Scheduler {
             }
         }
         return blocks;
+    }
+
+    public DatabaseConnection getDataBaseConnection(){
+        return this.toBase;
     }
 
     
