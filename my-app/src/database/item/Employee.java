@@ -1,5 +1,7 @@
 package database.item;
 
+import java.util.HashSet;
+
 public class Employee {
     private static long counter = 0;
 
@@ -9,6 +11,7 @@ public class Employee {
     private String phoneNumber;
     private Location startingLocation;
     private Schedule schedule;
+    private HashSet<Skills> skills;
 
     /**
      * A constructor for an employee.
@@ -17,8 +20,9 @@ public class Employee {
      * @param shiftEnd the hour that their shift ends
      * @param phoneNumber their phone number
      * @param startingLocation their base location
+     * @param skills their skills
      */
-    public Employee(int shiftStart, int shiftEnd, String phoneNumber, Location startingLocation) {
+    public Employee(int shiftStart, int shiftEnd, String phoneNumber, Location startingLocation, HashSet<Skills> skills) {
         this.employeeID = counter;
         counter++;
 
@@ -26,6 +30,7 @@ public class Employee {
         this.shiftEnd = shiftEnd;
         this.phoneNumber = phoneNumber;
         this.startingLocation = startingLocation;
+        this.skills = skills;
 
         this.schedule = new Schedule();
     }
