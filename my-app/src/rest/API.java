@@ -45,6 +45,7 @@ public class API {
                 JSONObject jsonObject = getEmployee(databaseConnection, userID);
 
                 exchange.getResponseHeaders().set("Content-Type", "application/json");
+                exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
 
                 String responseText = jsonObject.toString();
 
@@ -108,6 +109,18 @@ public class API {
                 OutputStream output = exchange.getResponseBody();
                 output.write(responseText.getBytes());
                 output.flush();
+            } else if ("OPTIONS".equalsIgnoreCase(exchange.getRequestMethod())) {
+
+                exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "POST");
+                exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "Access-Control-Allow-Origin, Content-Type");
+                exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+
+                String responseText = "Test.\n";
+
+                exchange.sendResponseHeaders(200, responseText.getBytes().length);
+                OutputStream output = exchange.getResponseBody();
+                output.write(responseText.getBytes());
+                output.flush();
             } else {
                 exchange.sendResponseHeaders(405, -1);// 405 Method Not Allowed
             }
@@ -117,9 +130,9 @@ public class API {
         // Add a job to the database.
 
         server.createContext("/api/job/add", (exchange ->   {
-
             if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
                 exchange.getRequestHeaders().set("Content-Type", "application/json");
+                exchange.getRequestHeaders().set("Access-Control-Allow-Origin", "*");
 
                 JSONObject request;
 
@@ -135,6 +148,18 @@ public class API {
 
                 long jobID = addJob(databaseConnection, request);
                 String responseText = "Added job " + jobID + " to the database.\n";
+
+                exchange.sendResponseHeaders(200, responseText.getBytes().length);
+                OutputStream output = exchange.getResponseBody();
+                output.write(responseText.getBytes());
+                output.flush();
+            } else if ("OPTIONS".equalsIgnoreCase(exchange.getRequestMethod())) {
+
+                exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "POST");
+                exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "Access-Control-Allow-Origin, Content-Type");
+                exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+
+                String responseText = "Test.\n";
 
                 exchange.sendResponseHeaders(200, responseText.getBytes().length);
                 OutputStream output = exchange.getResponseBody();
