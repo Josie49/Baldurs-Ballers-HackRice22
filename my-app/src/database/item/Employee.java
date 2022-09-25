@@ -3,7 +3,7 @@ package database.item;
 import java.util.HashSet;
 
 public class Employee {
-    private static long counter = 0;
+    private static long counter = 1;
 
     private long employeeID;
     private short shiftStart;
