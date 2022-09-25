@@ -42,6 +42,8 @@ public class Scheduler {
     public AbstractMap.SimpleEntry<ArrayList<Employee>, ArrayList<Job>> scheduleAll(ArrayList<Employee> empList, ArrayList<Job> jobList){
         this.toBase.removeScheduledJobs();
 
+        System.out.println("Scheduling today's jobs.");
+
         // Number of employees
         int numEmps = empList.size();
         for (Job emptyJob : jobList){
@@ -49,46 +51,45 @@ public class Scheduler {
             boolean jobScoped = false;
             // Acceptable distance between any two jobs, increases to 100km then exits the loop
             int distToler = 0;
-            while (jobScoped != true){
-                distToler++;
+            while (!jobScoped){
+                distToler+=10;
                 // Look through all employees to compare aspects to current job
-                for (int i = 0; i < numEmps; i++){
-                    Employee curEmp = empList.get(i);
+                for (Employee curEmp : empList) {
                     // First is the skills check, as it is absolutely mandatory and the most selective
-                    if (curEmp.getSkills().containsAll(emptyJob.getSkills())){
+                    if (curEmp.getSkills().containsAll(emptyJob.getSkills())) {
                         Schedule curSched = curEmp.getSchedule();
                         // Turn schedule into Array of periods of free time
                         ArrayList<Point> curFree = scheduleParse(curSched);
-                        for (Point block : curFree){
+                        for (Point block : curFree) {
                             // If available free time fits job description, continue to location comparison
-                            if (block.y - block.x >= emptyJob.getLength()){
+                            if (block.y - block.x >= emptyJob.getLength()) {
                                 long[] jobSched = curSched.getTable();
                                 long jobID = 0;
-                                for (int k = block.x; k >= 0; k--){
-                                    if (jobSched[k] != 0){
+                                for (int k = block.x; k >= 0; k--) {
+                                    if (jobSched[k] != 0) {
                                         jobID = jobSched[k];
                                         break;
                                     }
                                 }
                                 // Reverse search to find "current" job and isolate its location if there is a previous job on schedule
                                 Location recentJobLocation = null;
-                                if (jobID != 0){
-                                    for (Job pastJob : jobList){
-                                        if (pastJob.getJobID() == jobID){
+                                if (jobID > 0) {
+                                    for (Job pastJob : jobList) {
+                                        if (pastJob.getJobID() == jobID) {
                                             recentJobLocation = pastJob.getLocation();
                                         }
                                     }
                                 }
                                 // If this is employee's first job of the day, the recent location is their starting position
-                                else {
+                                if (recentJobLocation == null) {
                                     recentJobLocation = curEmp.getStartingLocation();
                                 }
                                 // With all conditions met but location, compare "current" location to requested job location
-                                if (recentJobLocation.radialDist(emptyJob.getLocation()) <= distToler){
+                                if (recentJobLocation.radialDist(emptyJob.getLocation()) <= distToler) {
                                     // Modify their existing table to reflect newly allocated job
                                     long[] curTable = curSched.getTable();
-                                    for (int j = block.y; j > block.x; j--){
-                                            curTable[j] = emptyJob.getJobID();
+                                    for (int j = block.y; j > block.x; j--) {
+                                        curTable[j] = emptyJob.getJobID();
                                     }
                                     // In case java referencing is weird, affirm that their schedule is actually changed
                                     curEmp.setSchedule(new Schedule(curTable));
@@ -101,16 +102,16 @@ public class Scheduler {
                                     break;
                                 }
                             }
-                        }   
-                    } 
+                        }
+                    }
                 }
-                if (distToler > 100){
+                if (distToler > 1000){
                     jobScoped = true;
                 }
             }
         }
         
-        return new SimpleEntry<ArrayList<Employee>,ArrayList<Job>>(empList, jobList);
+        return new SimpleEntry<>(empList, jobList);
     }
 
 
@@ -135,7 +136,7 @@ public class Scheduler {
                 curStreak++;
             }
             // End and add current streaks
-            else if (curTab[i] > 0 && curStreak > 0){
+            else if (curTab[i] != 0 && curStreak > 0){
                 blocks.add(new Point(i-curStreak, i));
                 curStreak = 0;
             }

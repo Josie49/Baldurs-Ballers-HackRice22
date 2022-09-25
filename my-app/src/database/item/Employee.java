@@ -34,7 +34,7 @@ public class Employee {
         this.startingLocation = startingLocation;
         this.skills = skills;
 
-        this.schedule = new Schedule();
+        this.setSchedule(new Schedule());
     }
 
     /**
@@ -56,7 +56,7 @@ public class Employee {
         this.startingLocation = startingLocation;
         this.skills = skills;
 
-        this.schedule = new Schedule();
+        this.setSchedule(new Schedule());
     }
 
     public long getEmployeeID() {
@@ -85,6 +85,16 @@ public class Employee {
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
+        if (this.shiftStart < this.shiftEnd) {
+            for (int i = this.shiftEnd; i < this.shiftStart + 24; i++) {
+                this.schedule.timeTable[i % 24] = -1;
+            }
+        } else {
+            for (int i = this.shiftEnd; i < this.shiftStart; i++) {
+                this.schedule.timeTable[i] = -1;
+            }
+        }
+
     }
 
     public HashSet<Skills> getSkills() {

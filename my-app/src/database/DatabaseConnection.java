@@ -311,10 +311,11 @@ public class DatabaseConnection {
      */
     public void assignJob(Employee employee, Job job, int time) {
         try {
-            connection.createStatement().executeQuery(
+            connection.createStatement().execute(
                 "INSERT INTO ASSIGNMENTS VALUES (" + employee.getEmployeeID() + ", " + job.getJobID() + ", " +
                     time + ")");
-            connection.createStatement().executeQuery("UPDATE JOB SET completed = 1 WHERE jobID = " + job.getJobID());
+            connection.createStatement().execute("UPDATE JOB SET completion = 1 WHERE jobID = " + job.getJobID());
+            System.out.println("Assigned " + job.getJobID() + " to employeee " + employee.getEmployeeID());
         } catch (SQLException se) {
             se.printStackTrace();
         }

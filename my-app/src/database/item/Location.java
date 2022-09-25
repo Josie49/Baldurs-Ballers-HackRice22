@@ -29,10 +29,11 @@ public class Location {
      * theoretically spherical earth between the given points
      */
     public double radialDist(Location other){
+        double deg2rad = Math.PI/180;
         int earthRad = 6371;
-        double interim = .5 - Math.cos((other.getLatitude() - this.getLatitude()) * Math.PI/180) + 
-                        Math.cos(this.getLatitude() * Math.PI/180) * Math.cos(other.getLatitude() * Math.PI/180) *
-                        (1 - Math.cos((other.getLongitude() - this.getLongitude()) * Math.PI/180))/2;
+        double interim = .5 - Math.cos((other.getLatitude() - this.getLatitude()) * deg2rad) / 2 +
+                        Math.cos(this.getLatitude() * Math.PI/180) * Math.cos(other.getLatitude() * deg2rad) *
+                        (1 - Math.cos((other.getLongitude() - this.getLongitude()) * deg2rad))/2;
         return 2 * earthRad * Math.asin(Math.sqrt(interim));
     }
 }
