@@ -21,6 +21,7 @@ export default function WorkOrderPage() {
     const [skills, setSkills] = useState();
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
+    const [response, setResponse] = useState("");
 
     const sendData = () => {
         console.log("Hours: ", hours);
@@ -28,6 +29,19 @@ export default function WorkOrderPage() {
         console.log("Details: ", details);
         console.log("Latitude: ", latitude);
         console.log("Longitude: ", longitude);
+
+        const jobInfo = {
+            "locationLatitude": latitude,
+            "locationLongitude": longitude,
+            "length": hours,
+            "details": details,
+            "skills": skills,
+        }
+
+        axios.post("http://localhost:8080/api/job/add", { jobInfo }).then(res => {
+            console.log(res);
+            setResponse(res);
+        })
     }
 
     return (
