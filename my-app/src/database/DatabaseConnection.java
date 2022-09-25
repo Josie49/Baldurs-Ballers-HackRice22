@@ -1,5 +1,6 @@
 package database;
 import database.item.Employee;
+import database.item.Job;
 import database.item.Location;
 import database.item.Skills;
 
@@ -116,6 +117,80 @@ public class DatabaseConnection {
         HashSet<Skills> skills = new HashSet<>();
         try {
             ResultSet results = statement.executeQuery("SELECT * FROM EMPLOYEE_SKILLS WHERE employeeID = " + employeeID);
+            while (results.next()) {
+                skills.add(Skills.getSkill(results.getInt(2)));
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+
+        return skills;
+    }
+
+    /**
+     * Gets all the jobs in the database.
+     *
+     * @return a list of Jobs
+     */
+    public List<Job> getAllJobs() {
+        List<Job> jobs = new ArrayList<>();
+
+        try {
+            ResultSet results = statement.executeQuery("SELECT * FROM JOB");
+            while (results.next()) {
+                Location location =
+                    new Location(results.getString(2), results.getString(3),
+                        results.getString(4), results.getString(5), results.getString(6));
+
+                jobs.add(
+                    new Job(
+                        results.getLong(1), results.getInt(7), results.getString(8),
+                        location, this.getJobSkills(results.getLong(1))));
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+
+        return jobs;
+    }
+
+    /**
+     * Gets all the incomplete jobs in the database.
+     *
+     * @return a list of Jobs
+     */
+    public List<Job> getUnfinishedJobs() {
+        List<Job> jobs = new ArrayList<>();
+
+        try {
+            ResultSet results = statement.executeQuery("SELECT * FROM JOB WHERE completion = 0");
+            while (results.next()) {
+                Location location =
+                    new Location(results.getString(2), results.getString(3),
+                        results.getString(4), results.getString(5), results.getString(6));
+
+                jobs.add(
+                    new Job(
+                        results.getLong(1), results.getInt(7), results.getString(8),
+                        location, this.getJobSkills(results.getLong(1))));
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+
+        return jobs;
+    }
+
+    /**
+     * Gets the skills required for a job.
+     *
+     * @param jobID a job ID
+     * @return a set of Skills
+     */
+    public HashSet<Skills> getJobSkills(long jobID) {
+        HashSet<Skills> skills = new HashSet<>();
+        try {
+            ResultSet results = statement.executeQuery("SELECT * FROM JOB_SKILLS WHERE jobID = " + jobID);
             while (results.next()) {
                 skills.add(Skills.getSkill(results.getInt(2)));
             }
