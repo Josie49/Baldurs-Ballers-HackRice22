@@ -2,16 +2,20 @@ package management;
 
 public class Schedule {
 
-    public boolean[] timeTable;
+    // Array of JobIDs reflecting the job occupying that hour long slot
+    public long[] timeTable;
 
     public Schedule(){
-        timeTable = new boolean[24];
+        timeTable = new long[24];
         for (int i = 0; i < 24; i++){
-            timeTable[i] = false;
+            timeTable[i] = 0;
         }
     }
+    public Schedule(long[] timeTable){
+        this.timeTable = timeTable;
+    }
 
-    public boolean[] getTable(){
+    public long[] getTable(){
         return timeTable;
     }
 }
