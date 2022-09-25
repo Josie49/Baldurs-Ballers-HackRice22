@@ -18,13 +18,15 @@ export default function WorkOrderPage() {
     const [details, setDetails] = useState("");
     const [hours, setHours] = useState(0);
     const [skills, setSkills] = useState();
-    const [location, setLocation] = useState("");
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
 
     const sendData = () => {
         console.log("Hours: ", hours);
         console.log("Skills: ", skills);
         console.log("Details: ", details);
-        console.log("Location: ", location);
+        console.log("Latitude: ", latitude);
+        console.log("Longitude: ", longitude);
     }
 
     return (
@@ -44,8 +46,14 @@ export default function WorkOrderPage() {
             </div>
 
             <div>
-                <h2>Job Location</h2>
-                <Input onChange={(e) => setLocation(e.target.value)} placeholder="Enter Job Address"/>
+                <div>
+                    Latitude
+                    <InputNumber controls={false} onChange={(e) => setLatitude(e)} />
+                </div>
+                <div>
+                    Longitude
+                    <InputNumber controls={false} onChange={(e) => setLongitude(e)} />
+                </div>
             </div>
 
             <Button type={"primary"} onClick={sendData}> Submit </Button>
