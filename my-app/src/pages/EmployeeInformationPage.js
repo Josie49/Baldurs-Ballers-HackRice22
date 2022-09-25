@@ -16,25 +16,51 @@ const options = [
 
 export default function EmployeeInformationPage() {
     const [phoneNumber, setPhoneNumber] = useState(0);
-    const [hours, setHours] = useState(0);
+    const [startShift, setStartShift] = useState(0);
+    const [endShift, setEndShift] = useState(0);
     const [skills, setSkills] = useState();
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
+    const [response, setResponse] = useState("");
 
     const sendData = () => {
-        console.log("Hours: ", hours);
+        console.log("Shift Start: ", startShift);
+        console.log("Shift End: ", endShift);
         console.log("Skills: ", skills);
         console.log("Phone Number: ", phoneNumber);
         console.log("Latitude: ", latitude);
         console.log("Longitude: ", longitude);
+
+        const employeeInfo = {
+            "startingLatitude": latitude,
+            "startingLongitude": longitude,
+            "phoneNumber": phoneNumber.toString(),
+            "shiftStart": startShift,
+            "shiftEnd": endShift,
+            "skills": skills,
+        }
+
+        axios.post("http://localhost:8080/api/employee/add", { employeeInfo }).then(res => {
+            console.log(res);
+            setResponse(res);
+        })
     }
 
     return (
         <div className="EmployeeInfoPage">
 
             <div>
-                Hours Available
-                <InputNumber controls={false} onChange={(e) => setHours(e)} />
+                <h2>Hours Available</h2>
+                <div>
+                    Start Shift
+                    <InputNumber controls={false} onChange={(e) => setStartShift(e)} />
+
+                    <br />
+
+                    End Shift
+                    <InputNumber controls={false} onChange={(e) => setEndShift(e)} />
+                </div>
+
             </div>
             <div>
                 Worker Phone Number

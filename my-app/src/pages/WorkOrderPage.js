@@ -5,14 +5,14 @@ import './WorkOrderPage.css';
 
 const { TextArea } = Input;
 const options = [
-    { label: 'Carpentry', value: 'CARPENTRY' },
-    { label: 'Backend', value: 'BACKEND'},
-    { label: 'UI', value: 'UI'},
-    { label: 'Hardware', value: 'HARDWARE'},
-    { label: 'Emotional', value: 'EMOTIONAL'},
-    { label: 'Wiring', value: 'WIRING'},
-    { label: 'Consultation', value: 'CONSULTATION'},
-    { label: 'Notary', value: 'NOTARY'},
+    { label: 'Carpentry', value: '0' },
+    { label: 'Backend', value: '1'},
+    { label: 'UI', value: '2'},
+    { label: 'Hardware', value: '3'},
+    { label: 'Emotional', value: '4'},
+    { label: 'Wiring', value: '5'},
+    { label: 'Consultation', value: '6'},
+    { label: 'Notary', value: '7'},
 ]
 
 export default function WorkOrderPage() {
