@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { InputNumber, Checkbox, Button } from 'antd';
 import axios from 'axios';
+import './EmployeeInformationPage.css';
 
 const options = [
     { label: 'Carpentry', value: 'CARPENTRY' },
@@ -29,7 +30,7 @@ export default function EmployeeInformationPage() {
     }
 
     return (
-        <div>
+        <div className="EmployeeInfoPage">
 
             <div>
                 Hours Available

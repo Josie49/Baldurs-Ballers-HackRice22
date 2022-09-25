@@ -4,11 +4,17 @@ import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-do
 import WorkOrderPage from './pages/WorkOrderPage';
 import EmployeeInformationPage from "./pages/EmployeeInformationPage";
 import ViewSchedulePage from "./pages/ViewShedulePage";
+import "./App.css"
 
 function Home() {
     return (
-        <div>
+        <div className="Home">
             <h1>Welcome to Baldur's Ballers v2</h1>
+            <div className="Pages">
+                <p><NavLink to="/SubmitWorkOrder">Submit A Work Order</NavLink></p>
+                <p><NavLink to="/SubmitEmployeeInformation">Submit Employee Information</NavLink></p>
+                <p><NavLink to="/EmployeeSchedule">View Employee Schedule</NavLink></p>
+            </div>
         </div>
     );
 }
@@ -16,11 +22,8 @@ function Home() {
 function App() {
   return (
     <Router>
-        <div>
+        <div className="App">
             <NavLink to="/">Home</NavLink>
-            <NavLink to="/SubmitWorkOrder">Submit A Work Order</NavLink>
-            <NavLink to="/SubmitEmployeeInformation">Submit Employee Information</NavLink>
-            <NavLink to="/EmployeeSchedule">View Employee Schedule</NavLink>
         </div>
 
         <Routes>

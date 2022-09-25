@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Checkbox, Input, InputNumber } from 'antd';
 import axios from 'axios';
+import './WorkOrderPage.css';
 
 const { TextArea } = Input;
 const options = [
@@ -30,7 +31,7 @@ export default function WorkOrderPage() {
     }
 
     return (
-        <div>
+        <div className="WorkOrderPage">
             <div>
                 <h2> Job Details </h2>
                 <TextArea rows={6} placeholder="Job Details" onChange={(e) => setDetails(e.target.value)} />

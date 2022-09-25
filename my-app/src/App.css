@@ -2,7 +2,19 @@
   text-align: center;
 }
 
-.App-logo {
+.Home {
+  text-align: center;
+}
+
+.Pages {
+  font-size: x-large;
+}
+
+body {
+  background-color: azure;
+}
+
+/*.App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -36,3 +48,4 @@
     transform: rotate(360deg);
   }
 }
+*/
